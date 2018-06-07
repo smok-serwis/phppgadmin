@@ -12,7 +12,7 @@
 		var $form;
 
 		/* Constructor */
-		function Misc() {
+		function __construct() {
 		}
 
 		/**
@@ -494,7 +494,7 @@
 				exit;
 			}
 			$this->setServerInfo('platform', $platform, $server_id);
-			$this->setServerInfo('pgVersion', $_connection->conn->pgVersion, $server_id);
+			$this->setServerInfo('pgVersion', "9.4+", $server_id);
 
 			// Create a database wrapper class for easy manipulation of the
 			// connection.
