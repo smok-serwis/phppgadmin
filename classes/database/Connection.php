@@ -75,7 +75,8 @@ class Connection {
 		$description = "PostgreSQL {$version}";
 
 		// Return "Postgres" if supported version.
-		if (substr($version,0,3) >= '9.4') return 'Postgres';
+		if (substr($version,0,3) >= '9.6') return 'Postgres';
+		else if (substr($version,0,3) == '9.4' || substr($version,0,3) == '9.5') return 'Postgres9495';
 		else return null;
 	}
 
