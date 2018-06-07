@@ -2637,14 +2637,33 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($sequence);
 		$this->clean($c_sequence);
 
-		$sql = "
-			SELECT c.relname AS seqname, s.*,
-				pg_catalog.obj_description(s.tableoid, 'pg_class') AS seqcomment,
-				u.usename AS seqowner, n.nspname
-			FROM \"{$sequence}\" AS s, pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
-			WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
-				AND c.relname = '{$c_sequence}' AND c.relkind = 'S' AND n.nspname='{$c_schema}'
-				AND n.oid = c.relnamespace";
+		$sql = 'SELECT
+			   c.relname AS seqname,
+			   s.*,
+			   pg_catalog.obj_description(s.tableoid, \'pg_class\') AS seqcomment,
+			   u.usename AS seqowner,
+			   n.nspname,
+			   start_value,
+			   min_value,
+			   max_value,
+			   increment_by,
+			   cycle AS is_cycled,
+			   cache_size AS cache_value
+			FROM
+			   "' . $sequence . '" AS s,
+			   pg_catalog.pg_class c,
+			   pg_catalog.pg_user u,
+			   pg_catalog.pg_namespace n,
+			   pg_catalog.pg_sequences p
+			WHERE
+			   c.relowner = u.usesysid
+			   AND c.relnamespace = n.oid
+			   AND c.relname = \'' . $c_sequence . '\'
+			   AND c.relkind = \'S\'
+			   AND n.nspname = \''. $c_schema . '\'
+			   AND n.oid = c.relnamespace
+			   AND p.sequencename = \'' . $sequence . '\'
+		';
 
 		return $this->selectSet( $sql );
 	}

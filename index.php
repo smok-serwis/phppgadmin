@@ -1,5 +1,4 @@
 <?php
-
 	/**
 	 * Main access point to the app.
 	 *

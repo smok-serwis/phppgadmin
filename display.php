@@ -538,7 +538,9 @@
 		}
 		//$query = isset($_REQUEST['query'])? $_REQUEST['query'] : "select * from {$_REQUEST['schema']}.{$_REQUEST['table']};";
 		echo $query;
-		echo '</textarea><br><input type="submit"/></form>';
+		echo '</textarea><br>';
+		echo $misc->form;
+		echo '<input type="submit"/></form>';
 
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation

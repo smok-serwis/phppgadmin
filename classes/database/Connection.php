@@ -44,9 +44,9 @@ class Connection {
 
 	/**
 	 * Gets the name of the correct database driver to use.  As a side effect,
-	 * sets the platform (stubbed, always returns "Postgres").
+	 * sets the platform.
 	 * @param (return-by-ref) $description A description of the database and version
-	 * @return The class name of the driver (always Postgres)
+	 * @return The class name of the driver (ie: Postgres96, Postgres10, etc.)
 	 * @return null if version is < 9.4
 	 * @return -3 Database-specific failure
 	 */
@@ -74,10 +74,15 @@ class Connection {
 		
 		$description = "PostgreSQL {$version}";
 
-		// Return "Postgres" if supported version.
-		if (substr($version,0,3) >= '9.6') return 'Postgres';
-		else if (substr($version,0,3) == '9.4' || substr($version,0,3) == '9.5') return 'Postgres9495';
-		else return null;
+		switch (substr($version,0,3)) {
+			case '10.': return 'Postgres10'; break;
+			case '9.6': return 'Postgres96'; break;
+			case '9.5': return 'Postgres95'; break;
+			case '9.4': return 'Postgres94'; break;
+		}
+
+		// If still nothing, return null.
+		return null;
 	}
 
 	/** 
