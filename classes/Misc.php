@@ -685,7 +685,9 @@
 			# FIXME: don't count hidden tabs
 			if (count($tabs) != 0) {
 				$width = (int)(100 / count($tabs)).'%';
-			} else $width = '0%';
+			} else {
+				$width = 1;
+			}
 
 			foreach ($tabs as $tab_id => $tab) {
 				$active = ($tab_id == $activetab) ? ' active' : '';
