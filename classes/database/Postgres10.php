@@ -9,7 +9,7 @@
 
 include_once('./classes/database/Postgres.php');
 
-class Postgres10 extends Postgres {
+class Postgres10 extends Postgres11 {
 	var $major_version = 10.0;
 
 	/**
